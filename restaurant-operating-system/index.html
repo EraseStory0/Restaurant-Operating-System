@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROS — Restaurant Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toastHost" class="toast-host"></div>
+
+<!-- ============================= LOGIN SCREEN ============================= -->
+<div id="screen-login" class="screen login-screen">
+  <div class="login-hero">
+    <div class="brand-row">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.2 3.6-3.4 4.6-3.4 9.2a3.4 3.4 0 0 0 6.8 0c0-1.6-.8-2.6-.8-2.6s.8 2.6-.8 3.4c.8-2.6-1.7-3.4-1.7-3.4s1.7 2.6 0 4.3a3.4 3.4 0 0 1-3.4-3.4C8.7 6.6 12 6.6 12 2z"/></svg>
+      </span>
+      <div>
+        <div class="brand-name display">ROS</div>
+        <div class="brand-sub">RESTAURANT OPERATING SYSTEM</div>
+      </div>
+    </div>
+    <h1 class="hero-line display">Every ticket.<br>On the rail.<br>In sync.</h1>
+    <p class="hero-copy">From the host stand to the pass to the register — one system runs reservations, orders, the kitchen line, inventory and the books.</p>
+    <div class="rail-demo">
+      <div class="rail-lanes"><span>New</span><span>Fired</span><span>Ready</span><span>Served</span></div>
+      <div class="rail-track" id="loginRailTrack"></div>
+    </div>
+    <div class="hero-stats">
+      <div><strong class="display">99.9%</strong><span>Uptime target</span></div>
+      <div><strong class="display">10k+</strong><span>Concurrent guests</span></div>
+      <div><strong class="display">&lt;3s</strong><span>Response time</span></div>
+    </div>
+  </div>
+
+  <div class="login-panel">
+    <div class="login-card">
+      <h2 class="display">Sign in</h2>
+      <p class="login-sub">Choose your role, then continue with the demo account.</p>
+      <div class="role-grid" id="roleGrid"></div>
+      <form class="login-form" id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" value="demo@rosystem.io" required>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" value="demo1234" required>
+        </div>
+        <div class="form-row">
+          <label class="checkbox"><input type="checkbox" checked> Remember me</label>
+          <a href="#" id="forgotLink">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" id="signInBtn">Sign in as <span id="signInRoleLabel">Customer</span></button>
+      </form>
+      <p class="signup-line">New here? <a href="#" id="createAccountLink">Create a customer account</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= FORGOT PASSWORD MODAL ============================= -->
+<div class="modal-overlay" id="modalForgot" hidden>
+  <div class="modal-box">
+    <h3 class="display">Reset your password</h3>
+    <p>Enter the email on your account and we'll send a reset link.</p>
+    <div id="forgotBody">
+      <div class="field"><label for="forgotEmail">Email</label><input type="email" id="forgotEmail" placeholder="you@restaurant.com"></div>
+      <div class="modal-close-row">
+        <button class="btn btn-ghost btn-sm" data-close-modal="modalForgot">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="forgotSendBtn">Send reset link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= CREATE ACCOUNT MODAL ============================= -->
+<div class="modal-overlay" id="modalSignup" hidden>
+  <div class="modal-box">
+    <h3 class="display">Create a customer account</h3>
+    <p>Book tables, order ahead, and track your history.</p>
+    <div id="signupBody">
+      <div class="field"><label for="signupName">Full name</label><input type="text" id="signupName" placeholder="Jordan Lee"></div>
+      <div class="field"><label for="signupEmail">Email</label><input type="email" id="signupEmail" placeholder="you@example.com"></div>
+      <div class="field"><label for="signupPassword">Password</label><input type="password" id="signupPassword" placeholder="Create a password"></div>
+      <div class="modal-close-row">
+        <button class="btn btn-ghost btn-sm" data-close-modal="modalSignup">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="signupCreateBtn">Create account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= APP SHELL ============================= -->
+<div class="screen app-shell" id="screen-app" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark" style="width:28px;height:28px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.2 3.6-3.4 4.6-3.4 9.2a3.4 3.4 0 0 0 6.8 0c0-1.6-.8-2.6-.8-2.6s.8 2.6-.8 3.4c.8-2.6-1.7-3.4-1.7-3.4s1.7 2.6 0 4.3a3.4 3.4 0 0 1-3.4-3.4C8.7 6.6 12 6.6 12 2z"/></svg>
+      </span>
+      <div><div class="brand-name display">ROS</div><div class="brand-sub">OPERATING SYSTEM</div></div>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-foot">
+      <button class="ai-fab-inline" id="aiToggleBtn">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>
+        Ask Rail AI
+      </button>
+      <button class="logout-btn" id="logoutBtn">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Sign out
+      </button>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div>
+          <h1 id="pageTitle" class="display"></h1>
+          <p id="pageSub" class="mono"></p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search…">
+        </div>
+        <button class="icon-btn" id="notifBtn" aria-label="Notifications">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span class="badge-dot"></span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar" id="userAvatar">C</div>
+          <div class="user-meta">
+            <strong id="userName">Demo User</strong>
+            <span id="userRole">Customer</span>
+          </div>
+        </div>
+      </div>
+      <div class="notif-pop" id="notifPop" hidden></div>
+    </header>
+
+    <main class="content" id="mainContent">
+
+      <!-- ===================== CUSTOMER VIEW ===================== -->
+      <section class="role-view" id="view-customer" data-role="customer">
+        <div class="tabs" data-tabs="customer">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="menu">Menu</button>
+          <button class="tab-btn" data-tab="reservations">Reservations</button>
+          <button class="tab-btn" data-tab="orders">Orders</button>
+          <button class="tab-btn" data-tab="billing">Billing</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="overview">
+          <div class="grid grid-3" style="margin-bottom:18px;">
+            <div class="card"><div class="kpi-label">Loyalty points</div><div class="kpi-value">1,240</div><div class="kpi-trend up">+80 this month</div></div>
+            <div class="card"><div class="kpi-label">Next reservation</div><div class="kpi-value" style="font-size:1.3rem;">Sat, 7:30 PM</div><div class="kpi-trend" style="color:var(--ink-soft);">Table for 4 · Patio</div></div>
+            <div class="card"><div class="kpi-label">Active order</div><div class="kpi-value" style="font-size:1.3rem;">#OS-2291</div><div class="kpi-trend" style="color:var(--amber-deep);">Preparing</div></div>
+          </div>
+          <div class="insight-card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg> Rail AI recommends</h3>
+            <p>Ask for a dish pairing, a dietary-friendly swap, or the best time to book your next table.</p>
+            <div class="chip-row">
+              <button class="chip ai-quick" data-role="customer" data-prompt="Based on the menu, recommend a starter, main and dessert for someone who likes bold, smoky flavors.">Recommend a meal for me</button>
+              <button class="chip ai-quick" data-role="customer" data-prompt="I'm vegetarian — what on the menu should I order, and is there a good wine or drink pairing?">Vegetarian pairing</button>
+              <button class="chip ai-quick" data-role="customer" data-prompt="What's the status of my order #OS-2291 and roughly how much longer will it take?">Track my order</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="menu">
+          <div class="filter-pills" id="menuFilterPills"></div>
+          <div class="grid grid-3" id="menuGrid"></div>
+        </div>
+
+        <div class="tab-panel" data-panel="reservations">
+          <div class="grid grid-2" style="align-items:start;">
+            <div class="card">
+              <h3 style="margin-bottom:14px;">Book a table</h3>
+              <form id="reservationForm" style="display:flex; flex-direction:column; gap:12px;">
+                <div class="field"><label>Date</label><input type="date" id="resDate"></div>
+                <div class="field"><label>Time</label><input type="time" id="resTime" value="19:00"></div>
+                <div class="field"><label>Party size</label><input type="number" id="resGuests" min="1" max="12" value="2"></div>
+                <div class="field"><label>Seating preference</label>
+                  <select id="resSeating" style="width:100%; padding:11px 13px; border:1px solid var(--paper-3); border-radius:8px; background:var(--white);">
+                    <option>No preference</option><option>Patio</option><option>Window</option><option>Booth</option><option>Bar</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Confirm reservation</button>
+              </form>
+            </div>
+            <div>
+              <h3 style="margin-bottom:14px;">Your reservations</h3>
+              <div id="reservationList" style="display:flex; flex-direction:column; gap:10px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="orders">
+          <div class="grid grid-2" style="align-items:start;">
+            <div>
+              <div class="section-head"><h2>Place an order</h2></div>
+              <div class="filter-pills">
+                <button class="filter-pill active" data-order-type="Dine-in">Dine-in</button>
+                <button class="filter-pill" data-order-type="Takeaway">Takeaway</button>
+                <button class="filter-pill" data-order-type="Delivery">Delivery</button>
+              </div>
+              <div class="card">
+                <p style="color:var(--ink-soft); font-size:.85rem; margin-bottom:10px;">Add items from the Menu tab — your cart appears here.</p>
+                <div id="cartList" style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;"></div>
+                <div style="display:flex; justify-content:space-between; font-weight:700; border-top:1px solid var(--paper-2); padding-top:10px;">
+                  <span>Cart total</span><span class="mono" id="cartTotal">$0.00</span>
+                </div>
+                <button class="btn btn-dark" style="width:100%; margin-top:12px;" id="placeOrderBtn">Place order</button>
+              </div>
+            </div>
+            <div>
+              <div class="section-head"><h2>Track your order</h2></div>
+              <div class="card">
+                <div class="rail-lanes" style="border-bottom:1px solid var(--paper-3); margin-bottom:14px;">
+                  <span style="color:var(--ink-soft);">New</span><span style="color:var(--ink-soft);">Preparing</span><span style="color:var(--ink-soft);">Ready</span><span style="color:var(--ink-soft);">Served</span>
+                </div>
+                <div id="orderTrackerBar" style="height:8px; background:var(--paper-2); border-radius:99px; margin-bottom:10px; overflow:hidden;">
+                  <div style="width:55%; height:100%; background:var(--amber);"></div>
+                </div>
+                <p style="font-size:.85rem; color:var(--ink-soft);">Order <strong class="mono" style="color:var(--ink);">#OS-2291</strong> — Grilled salmon, roasted vegetables — <span class="pill pill-amber">Preparing</span></p>
+              </div>
+              <h3 style="margin:20px 0 12px;">Order history</h3>
+              <div id="orderHistoryList" style="display:flex; flex-direction:column; gap:10px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="billing">
+          <div class="grid grid-2" style="align-items:start;">
+            <div class="card">
+              <h3 style="margin-bottom:14px;">Current bill</h3>
+              <div style="display:flex; flex-direction:column; gap:8px; font-size:.88rem;">
+                <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span class="mono">$48.00</span></div>
+                <div style="display:flex; justify-content:space-between;"><span>Loyalty discount (10%)</span><span class="mono" style="color:var(--herb);">-$4.80</span></div>
+                <div style="display:flex; justify-content:space-between;"><span>Tax</span><span class="mono">$3.89</span></div>
+                <div style="display:flex; justify-content:space-between; font-weight:700; border-top:1px solid var(--paper-2); padding-top:8px; margin-top:4px;"><span>Total due</span><span class="mono">$47.09</span></div>
+              </div>
+              <button class="btn btn-primary" style="width:100%; margin-top:16px;" id="payNowBtn">Pay now</button>
+            </div>
+            <div>
+              <h3 style="margin-bottom:14px;">Receipts</h3>
+              <div id="receiptList" style="display:flex; flex-direction:column; gap:10px;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WAITER VIEW ===================== -->
+      <section class="role-view" id="view-waiter" data-role="waiter">
+        <div class="tabs" data-tabs="waiter">
+          <button class="tab-btn active" data-tab="floor">Floor</button>
+          <button class="tab-btn" data-tab="orders">Orders</button>
+          <button class="tab-btn" data-tab="reservations">Reservations</button>
+          <button class="tab-btn" data-tab="notifications">Notifications</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="floor">
+          <div class="insight-card" style="margin-bottom:18px;">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg> Rail AI floor assist</h3>
+            <p>Get a seating suggestion, or check which tables are closest to turning.</p>
+            <div class="chip-row">
+              <button class="chip ai-quick" data-role="waiter" data-prompt="Looking at the floor plan, which table should I seat the next 2-top party at, and why?">Which table next?</button>
+              <button class="chip ai-quick" data-role="waiter" data-prompt="Which tables are likely to turn over in the next 15 minutes based on their status?">Tables turning soon</button>
+            </div>
+          </div>
+          <div class="section-head"><h2>Floor plan</h2><p>Tap a table to update its status.</p></div>
+          <div class="floor-grid" id="floorGrid"></div>
+          <div class="legend">
+            <span><i style="background:var(--herb);"></i>Available</span>
+            <span><i style="background:var(--ember);"></i>Occupied</span>
+            <span><i style="background:var(--teal);"></i>Reserved</span>
+            <span><i style="background:var(--amber-deep);"></i>Needs bussing</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="orders">
+          <div class="section-head"><h2>Active table orders</h2></div>
+          <div id="waiterOrdersList" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <div class="tab-panel" data-panel="reservations">
+          <div class="section-head"><h2>Today's reservations</h2></div>
+          <div class="table-wrap"><table id="waiterResTable"><thead><tr><th>Time</th><th>Guest</th><th>Party</th><th>Table</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+        </div>
+
+        <div class="tab-panel" data-panel="notifications">
+          <div class="section-head"><h2>Live notifications</h2></div>
+          <div id="waiterNotifList" style="display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+      </section>
+
+      <!-- ===================== KITCHEN VIEW ===================== -->
+      <section class="role-view" id="view-kitchen" data-role="kitchen">
+        <div class="tabs" data-tabs="kitchen">
+          <button class="tab-btn active" data-tab="rail">Ticket rail</button>
+          <button class="tab-btn" data-tab="history">History</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="rail">
+          <div class="insight-card" style="margin-bottom:18px;">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg> Rail AI pass assist</h3>
+            <p>Ask for a fire order across current tickets, weighted by wait time and course type.</p>
+            <div class="chip-row">
+              <button class="chip ai-quick" data-role="kitchen" data-prompt="Given the current tickets on the rail, what order should I fire them in, and why?">What should I fire next?</button>
+              <button class="chip ai-quick" data-role="kitchen" data-prompt="Are any tickets at risk of running late? Flag anything approaching or past a reasonable ticket time.">Any tickets running late?</button>
+            </div>
+          </div>
+          <div class="rail-board" id="railBoard">
+            <div class="lane" data-lane="new"><div class="lane-head">New<span class="lane-count" id="countNew">0</span></div><div class="lane-body" id="laneNew"></div></div>
+            <div class="lane" data-lane="firing"><div class="lane-head">Firing<span class="lane-count" id="countFiring">0</span></div><div class="lane-body" id="laneFiring"></div></div>
+            <div class="lane" data-lane="ready"><div class="lane-head">Ready<span class="lane-count" id="countReady">0</span></div><div class="lane-body" id="laneReady"></div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="history">
+          <div class="section-head"><h2>Completed today</h2></div>
+          <div class="table-wrap"><table><thead><tr><th>Ticket</th><th>Table / type</th><th>Items</th><th>Time to complete</th></tr></thead><tbody id="kitchenHistoryBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- ===================== MANAGER VIEW ===================== -->
+      <section class="role-view" id="view-manager" data-role="manager">
+        <div class="tabs" data-tabs="manager">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="sales">Sales</button>
+          <button class="tab-btn" data-tab="inventory">Inventory</button>
+          <button class="tab-btn" data-tab="staff">Staff</button>
+          <button class="tab-btn" data-tab="reports">Reports</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="overview">
+          <div class="grid grid-4" style="margin-bottom:18px;">
+            <div class="card"><div class="kpi-label">Revenue today</div><div class="kpi-value">$4,286</div><div class="kpi-trend up">
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>+12% vs yesterday</div></div>
+            <div class="card"><div class="kpi-label">Orders today</div><div class="kpi-value">213</div><div class="kpi-trend up">+18 vs yesterday</div></div>
+            <div class="card"><div class="kpi-label">Avg. ticket time</div><div class="kpi-value">16m</div><div class="kpi-trend up">2m faster than yesterday</div></div>
+            <div class="card"><div class="kpi-label">Table turnover</div><div class="kpi-value">3.1x</div><div class="kpi-trend up">+0.2x vs yesterday</div></div>
+          </div>
+          <div class="insight-card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg> Rail AI business insights</h3>
+            <p>Generate a plain-language summary of today's performance, or flag inventory and staffing risks.</p>
+            <div class="chip-row">
+              <button class="chip ai-quick" data-role="manager" data-prompt="Summarize today's restaurant performance in 3-4 sentences using the KPI data, and call out one thing worth acting on.">Summarize today's performance</button>
+              <button class="chip ai-quick" data-role="manager" data-prompt="Based on current inventory levels, which ingredients should I reorder first and roughly when will each run out?">What should I restock?</button>
+              <button class="chip ai-quick" data-role="manager" data-prompt="Looking at today's staffing and attendance, are there any scheduling risks I should address?">Any staffing risks?</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="sales">
+          <div class="grid grid-2" style="align-items:start;">
+            <div class="card"><h3 style="margin-bottom:12px;">Revenue — last 7 days</h3><div class="chart-wrap" id="salesLineChart"></div></div>
+            <div class="card"><h3 style="margin-bottom:12px;">Top selling items</h3><div class="chart-wrap" id="salesBarChart"></div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="inventory">
+          <div class="card" id="lowStockBanner" style="border-color:var(--ember); background:var(--ember-tint); margin-bottom:16px; display:flex; align-items:center; gap:10px; color:var(--ember);">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>
+            <span id="lowStockText">Checking stock levels…</span>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Ingredient</th><th>On hand</th><th>Threshold</th><th>Supplier</th><th>Status</th><th></th></tr></thead><tbody id="inventoryBody"></tbody></table></div>
+        </div>
+
+        <div class="tab-panel" data-panel="staff">
+          <div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Shift</th><th>Attendance</th></tr></thead><tbody id="staffBody"></tbody></table></div>
+        </div>
+
+        <div class="tab-panel" data-panel="reports">
+          <div class="grid grid-3" id="reportsGrid"></div>
+        </div>
+      </section>
+
+      <!-- ===================== ADMIN VIEW ===================== -->
+      <section class="role-view" id="view-admin" data-role="admin">
+        <div class="tabs" data-tabs="admin">
+          <button class="tab-btn active" data-tab="users">Users &amp; roles</button>
+          <button class="tab-btn" data-tab="security">Security</button>
+          <button class="tab-btn" data-tab="health">System health</button>
+          <button class="tab-btn" data-tab="integrations">Integrations</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="users">
+          <div class="section-head"><h2>Users &amp; roles</h2><p>Role-based access control (RBAC) governs what each account can see and do.</p></div>
+          <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody id="usersBody"></tbody></table></div>
+        </div>
+
+        <div class="tab-panel" data-panel="security">
+          <div class="insight-card" style="margin-bottom:18px;">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg> Rail AI security digest</h3>
+            <p>Get a plain-language read on today's audit log — anything unusual gets flagged first.</p>
+            <div class="chip-row">
+              <button class="chip ai-quick" data-role="admin" data-prompt="Review today's audit log entries and tell me if anything looks unusual or worth investigating.">Any security concerns today?</button>
+            </div>
+          </div>
+          <div class="grid grid-3" style="margin-bottom:18px;">
+            <div class="card"><div class="kpi-label">Session timeout</div><div class="kpi-value" style="font-size:1.4rem;">20 min</div></div>
+            <div class="card"><div class="kpi-label">Password policy</div><div class="kpi-value" style="font-size:1.4rem;">Encrypted, 8+ chars</div></div>
+            <div class="card"><div class="kpi-label">Transport security</div><div class="kpi-value" style="font-size:1.4rem;"><span class="pill pill-herb">HTTPS enforced</span></div></div>
+          </div>
+          <h3 style="margin-bottom:12px;">Audit log</h3>
+          <div class="table-wrap"><table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>IP</th><th>Level</th></tr></thead><tbody id="auditBody"></tbody></table></div>
+        </div>
+
+        <div class="tab-panel" data-panel="health">
+          <div class="grid grid-4" style="margin-bottom:18px;">
+            <div class="card"><div class="kpi-label">Uptime (30d)</div><div class="kpi-value">99.97%</div></div>
+            <div class="card"><div class="kpi-label">Concurrent users</div><div class="kpi-value">6,842</div><div class="kpi-trend" style="color:var(--ink-soft);">of 10,000 capacity</div></div>
+            <div class="card"><div class="kpi-label">Last backup</div><div class="kpi-value" style="font-size:1.3rem;">Today, 03:00</div><div class="kpi-trend up">Automated · OK</div></div>
+            <div class="card"><div class="kpi-label">Open incidents</div><div class="kpi-value">0</div></div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Server load</h3>
+            <div class="grid grid-3" id="gaugeGrid"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="integrations">
+          <div class="grid grid-2" id="integrationsGrid"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============================= AI ASSISTANT PANEL ============================= -->
+<div class="ai-scrim" id="aiScrim" hidden></div>
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-head">
+    <span class="brand-mark" style="width:30px;height:30px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>
+    </span>
+    <div class="ai-head-text"><strong>Rail AI</strong><span id="aiRoleLabel">Customer assistant</span></div>
+    <button class="ai-close" id="aiCloseBtn" aria-label="Close assistant">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="ai-chips" id="aiChipsRow"></div>
+  <div class="ai-messages" id="aiMessages"></div>
+  <div class="ai-input-row">
+    <input type="text" id="aiInput" placeholder="Ask Rail AI anything…">
+    <button class="ai-send" id="aiSendBtn" aria-label="Send">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+    </button>
+  </div>
+  <p class="ai-disclaimer">Rail AI can make mistakes. Double-check anything that affects orders, safety or pay.</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
