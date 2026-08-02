@@ -56,7 +56,8 @@ const PAGE_META = {
 const menuItems = [
   {id:1,name:'Charred Octopus',desc:'Smoked paprika, white bean puree, lemon oil',price:16,cat:'Starters',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/www.anotherfoodblogger.com/dc3d6828e89e55c1c7ab478c68f55a09cef10312.jpg'},
   {id:2,name:'Heirloom Tomato Salad',desc:'Whipped ricotta, basil, aged balsamic',price:12,cat:'Starters',icon:'leaf',img:'https://kimi-web-img.moonshot.cn/img/media.chefdehome.com/9a4848cc6d3b1c82a5e2ab6730f38af669e02673.jpg'},
-  {id:3,name:'Crispy Beef',desc:'Chili caramel, pickled daikon',price:14,cat:'Starters',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/img.taste.com.au/05278ccd5a6437727af0695288c2d89b65f60855.jpg'},
+  {id:3,name:'Crispy Beef',desc:'Chili caramel, pickled daikon',price:14,cat:'Starters',icon:'flame',img:'  {id:3,name:'Crispy Beef',desc:'Chili caramel, pickled daikon',price:14,cat:'Starters',icon:'flame',img:'https://pupswithchopsticks.com/wp-content/uploads/sweet-sticky-crispy-mongolian-beef-portrait.jpg'},
+'},
   {id:4,name:'Grilled Salmon',desc:'Roasted vegetables, herb butter',price:26,cat:'Mains',icon:'plate',img:'https://kimi-web-img.moonshot.cn/img/popmenucloud.com/73ca18b470c1916eba569eb8422e04484a2ec76c.jpg'},
   {id:5,name:'Braised Short Rib',desc:'Root vegetable mash, red wine jus',price:29,cat:'Mains',icon:'plate',img:'https://kimi-web-img.moonshot.cn/img/www.ouichefnetwork.com/9fcef198e7691c8642a223e7d587e0ae85be15de.jpg'},
   {id:6,name:'Wild Mushroom Risotto',desc:'Parmesan, truffle oil, chives',price:22,cat:'Mains',icon:'leaf',img:'https://kimi-web-img.moonshot.cn/img/images.themodernproper.com/5278dc96018db219dfecac87ea8a42d74f48185b.jpg'},
