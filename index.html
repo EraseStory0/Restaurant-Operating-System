@@ -13,10 +13,10 @@
 
 <div id="toastHost" class="toast-host"></div>
 
-<!-- ============================= LOGIN SCREEN ============================= -->
-<div id="screen-login" class="screen login-screen">
-  <div class="login-hero">
-    <div class="brand-row">
+<!-- ============================= GUEST PAGE ============================= -->
+<div id="screen-guest" class="screen guest-screen">
+  <header class="guest-header">
+    <div class="guest-brand">
       <span class="brand-mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.2 3.6-3.4 4.6-3.4 9.2a3.4 3.4 0 0 0 6.8 0c0-1.6-.8-2.6-.8-2.6s.8 2.6-.8 3.4c.8-2.6-1.7-3.4-1.7-3.4s1.7 2.6 0 4.3a3.4 3.4 0 0 1-3.4-3.4C8.7 6.6 12 6.6 12 2z"/></svg>
       </span>
@@ -25,41 +25,111 @@
         <div class="brand-sub">RESTAURANT OPERATING SYSTEM</div>
       </div>
     </div>
-    <h1 class="hero-line display">Every ticket.<br>On the rail.<br>In sync.</h1>
-    <p class="hero-copy">From the host stand to the pass to the register — one system runs reservations, orders, the kitchen line, inventory and the books.</p>
-    <div class="rail-demo">
-      <div class="rail-lanes"><span>New</span><span>Fired</span><span>Ready</span><span>Served</span></div>
-      <div class="rail-track" id="loginRailTrack"></div>
+    <nav class="guest-nav">
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="btn btn-dark" id="guestSignInBtn">Sign in</button>
+  </header>
+
+  <section class="guest-hero">
+    <div class="guest-hero-text">
+      <h1 class="display">Bold flavors.<br>Fire &amp; smoke.</h1>
+      <p>From charred octopus to smoked brisket — every plate tells a story. Browse our menu, then sign in to order ahead or book a table.</p>
+      <div class="guest-hero-actions">
+        <a href="#menu" class="btn btn-primary">View menu</a>
+        <button class="btn btn-ghost" id="guestSignInBtn2">Sign in to order</button>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div><strong class="display">99.9%</strong><span>Uptime target</span></div>
-      <div><strong class="display">10k+</strong><span>Concurrent guests</span></div>
-      <div><strong class="display">&lt;3s</strong><span>Response time</span></div>
+    <div class="guest-hero-img">
+      <img src="https://kimi-web-img.moonshot.cn/img/popmenucloud.com/73ca18b470c1916eba569eb8422e04484a2ec76c.jpg" alt="Grilled salmon">
     </div>
+  </section>
+
+  <section class="guest-section" id="menu">
+    <div class="section-head" style="max-width:900px; margin:0 auto 28px;">
+      <h2 class="display" style="font-size:2rem;">Our menu</h2>
+      <p style="color:var(--ink-soft);">Sign in to add items to your cart and place an order.</p>
+    </div>
+    <div class="filter-pills" id="guestMenuFilterPills" style="justify-content:center; margin-bottom:28px;"></div>
+    <div class="grid grid-3" id="guestMenuGrid" style="max-width:1100px; margin:0 auto;"></div>
+  </section>
+
+  <section class="guest-section guest-about" id="about">
+    <div class="guest-about-grid">
+      <div>
+        <h2 class="display" style="font-size:2rem; margin-bottom:12px;">About ROS Kitchen</h2>
+        <p style="color:var(--ink-soft); line-height:1.7;">We believe great food starts with great ingredients and ends with fire. Our open kitchen, seasonal menu, and curated wine list make every visit memorable. Reserve a table, order ahead, or just drop by — we'll have a seat ready.</p>
+        <div class="guest-stats">
+          <div><strong class="display">4.8</strong><span>Guest rating</span></div>
+          <div><strong class="display">120+</strong><span>Seats</span></div>
+          <div><strong class="display">Seasonal</strong><span>Menu</span></div>
+        </div>
+      </div>
+      <div class="guest-about-img">
+        <img src="https://kimi-web-img.moonshot.cn/img/food.fnr.sndimg.com/e7367327bd5246c14557f3a662aeee462985a1d6.webp" alt="Smoked brisket plate">
+      </div>
+    </div>
+  </section>
+
+  <section class="guest-section" id="contact">
+    <div class="guest-contact">
+      <h2 class="display" style="font-size:2rem; margin-bottom:12px;">Visit us</h2>
+      <p style="color:var(--ink-soft); margin-bottom:20px;">123 Ember Lane, Downtown · Open daily 11am – 11pm</p>
+      <div class="guest-contact-grid">
+        <div class="card"><strong>Reservations</strong><span>(555) 019-2834</span></div>
+        <div class="card"><strong>Takeaway</strong><span>(555) 019-2835</span></div>
+        <div class="card"><strong>Email</strong><span>hello@rosystem.io</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="guest-footer">
+    <div class="guest-brand" style="margin-bottom:8px;">
+      <span class="brand-mark" style="width:28px;height:28px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.2 3.6-3.4 4.6-3.4 9.2a3.4 3.4 0 0 0 6.8 0c0-1.6-.8-2.6-.8-2.6s.8 2.6-.8 3.4c.8-2.6-1.7-3.4-1.7-3.4s1.7 2.6 0 4.3a3.4 3.4 0 0 1-3.4-3.4C8.7 6.6 12 6.6 12 2z"/></svg>
+      </span>
+      <div><div class="brand-name display" style="font-size:1.05rem;">ROS</div></div>
+    </div>
+    <p style="color:var(--ink-soft); font-size:.78rem;">Restaurant Operating System · Demo application</p>
+  </footer>
+</div>
+
+<!-- ============================= LOGIN SIDE PANEL ============================= -->
+<div class="login-scrim" id="loginScrim" hidden></div>
+<div class="login-panel" id="loginPanel">
+  <div class="login-panel-head">
+    <div class="login-panel-brand">
+      <span class="brand-mark" style="width:28px;height:28px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.2 3.6-3.4 4.6-3.4 9.2a3.4 3.4 0 0 0 6.8 0c0-1.6-.8-2.6-.8-2.6s.8 2.6-.8 3.4c.8-2.6-1.7-3.4-1.7-3.4s1.7 2.6 0 4.3a3.4 3.4 0 0 1-3.4-3.4C8.7 6.6 12 6.6 12 2z"/></svg>
+      </span>
+      <div><strong class="display" style="font-size:1.1rem;">Sign in</strong><span style="font-size:.7rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; display:block;">ROS Operating System</span></div>
+    </div>
+    <button class="login-panel-close" id="loginPanelClose" aria-label="Close">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
   </div>
 
-  <div class="login-panel">
-    <div class="login-card">
-      <h2 class="display">Sign in</h2>
-      <p class="login-sub">Choose your role, then continue with the demo account.</p>
-      <div class="role-grid" id="roleGrid"></div>
-      <form class="login-form" id="loginForm">
-        <div class="field">
-          <label for="loginEmail">Email</label>
-          <input type="email" id="loginEmail" value="demo@rosystem.io" required>
-        </div>
-        <div class="field">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" value="demo1234" required>
-        </div>
-        <div class="form-row">
-          <label class="checkbox"><input type="checkbox" checked> Remember me</label>
-          <a href="#" id="forgotLink">Forgot password?</a>
-        </div>
-        <button type="submit" class="btn btn-primary" id="signInBtn">Sign in as <span id="signInRoleLabel">Customer</span></button>
-      </form>
-      <p class="signup-line">New here? <a href="#" id="createAccountLink">Create a customer account</a></p>
-    </div>
+  <div class="login-panel-body">
+    <p class="login-sub">Choose your role, then continue with the demo account.</p>
+    <div class="role-grid" id="roleGrid"></div>
+    <form class="login-form" id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" value="demo@rosystem.io" required>
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" value="demo1234" required>
+      </div>
+      <div class="form-row">
+        <label class="checkbox"><input type="checkbox" checked> Remember me</label>
+        <a href="#" id="forgotLink">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn btn-primary" id="signInBtn">Sign in as <span id="signInRoleLabel">Customer</span></button>
+    </form>
+    <p class="signup-line">New here? <a href="#" id="createAccountLink">Create a customer account</a></p>
   </div>
 </div>
 
