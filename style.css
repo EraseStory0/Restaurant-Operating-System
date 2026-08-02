@@ -58,7 +58,7 @@ img,svg{display:block;}
 }
 
 /* ============================= GUEST PAGE ============================= */
-.guest-screen{background:var(--white); min-height:100vh; display:flex; flex-direction:column;}
+.guest-screen{background:var(--#EFEBE1); min-height:100vh; display:flex; flex-direction:column;}
 .guest-header{
   display:flex; align-items:center; justify-content:space-between; gap:16px;
   padding:16px 30px; border-bottom:1px solid var(--paper-2); background:var(--white);
