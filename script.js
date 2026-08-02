@@ -54,19 +54,19 @@ const PAGE_META = {
 };
 
 const menuItems = [
-  {id:1,name:'Charred Octopus',desc:'Smoked paprika, white bean puree, lemon oil',price:16,cat:'Starters',icon:'flame'},
-  {id:2,name:'Heirloom Tomato Salad',desc:'Whipped ricotta, basil, aged balsamic',price:12,cat:'Starters',icon:'leaf'},
-  {id:3,name:'Crispy Pork Belly Bites',desc:'Chili caramel, pickled daikon',price:14,cat:'Starters',icon:'flame'},
-  {id:4,name:'Grilled Salmon',desc:'Roasted vegetables, herb butter',price:26,cat:'Mains',icon:'plate'},
-  {id:5,name:'Braised Short Rib',desc:'Root vegetable mash, red wine jus',price:29,cat:'Mains',icon:'plate'},
-  {id:6,name:'Wild Mushroom Risotto',desc:'Parmesan, truffle oil, chives',price:22,cat:'Mains',icon:'leaf'},
-  {id:7,name:'Smoked Brisket Plate',desc:'House rub, charred onions, jus',price:27,cat:'Grills',icon:'flame'},
-  {id:8,name:'Charcoal Chicken',desc:'Citrus marinade, chimichurri',price:21,cat:'Grills',icon:'flame'},
-  {id:9,name:'Grilled Vegetable Skewers',desc:'Romesco, smoked salt',price:17,cat:'Grills',icon:'leaf'},
-  {id:10,name:'Dark Chocolate Torte',desc:'Sea salt, espresso cream',price:11,cat:'Desserts',icon:'cake'},
-  {id:11,name:'Citrus Panna Cotta',desc:'Candied orange, mint',price:9,cat:'Desserts',icon:'cake'},
-  {id:12,name:'Barrel-Aged Old Fashioned',desc:'House bitters, orange oil',price:14,cat:'Drinks',icon:'drink'},
-  {id:13,name:'Smoked Rosemary Spritz',desc:'Gin, elderflower, soda',price:13,cat:'Drinks',icon:'drink'}
+  {id:1,name:'Charred Octopus',desc:'Smoked paprika, white bean puree, lemon oil',price:16,cat:'Starters',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/www.anotherfoodblogger.com/dc3d6828e89e55c1c7ab478c68f55a09cef10312.jpg'},
+  {id:2,name:'Heirloom Tomato Salad',desc:'Whipped ricotta, basil, aged balsamic',price:12,cat:'Starters',icon:'leaf',img:'https://kimi-web-img.moonshot.cn/img/media.chefdehome.com/9a4848cc6d3b1c82a5e2ab6730f38af669e02673.jpg'},
+  {id:3,name:'Crispy Pork Belly Bites',desc:'Chili caramel, pickled daikon',price:14,cat:'Starters',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/img.taste.com.au/05278ccd5a6437727af0695288c2d89b65f60855.jpg'},
+  {id:4,name:'Grilled Salmon',desc:'Roasted vegetables, herb butter',price:26,cat:'Mains',icon:'plate',img:'https://kimi-web-img.moonshot.cn/img/popmenucloud.com/73ca18b470c1916eba569eb8422e04484a2ec76c.jpg'},
+  {id:5,name:'Braised Short Rib',desc:'Root vegetable mash, red wine jus',price:29,cat:'Mains',icon:'plate',img:'https://kimi-web-img.moonshot.cn/img/www.ouichefnetwork.com/9fcef198e7691c8642a223e7d587e0ae85be15de.jpg'},
+  {id:6,name:'Wild Mushroom Risotto',desc:'Parmesan, truffle oil, chives',price:22,cat:'Mains',icon:'leaf',img:'https://kimi-web-img.moonshot.cn/img/images.themodernproper.com/5278dc96018db219dfecac87ea8a42d74f48185b.jpg'},
+  {id:7,name:'Smoked Brisket Plate',desc:'House rub, charred onions, jus',price:27,cat:'Grills',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/food.fnr.sndimg.com/e7367327bd5246c14557f3a662aeee462985a1d6.webp'},
+  {id:8,name:'Charcoal Chicken',desc:'Citrus marinade, chimichurri',price:21,cat:'Grills',icon:'flame',img:'https://kimi-web-img.moonshot.cn/img/images.getrecipekit.com/704dfeedd53f435adada3bebbcdcb4a1a64207fc.jpeg'},
+  {id:9,name:'Grilled Vegetable Skewers',desc:'Romesco, smoked salt',price:17,cat:'Grills',icon:'leaf',img:'https://kimi-web-img.moonshot.cn/img/wholesomepatisserie.com/849a0e180c26cabc24c258bf1f086e291119c11b.jpg'},
+  {id:10,name:'Dark Chocolate Torte',desc:'Sea salt, espresso cream',price:11,cat:'Desserts',icon:'cake',img:'https://kimi-web-img.moonshot.cn/img/cookinglsl.com/0f0b41002da4e8d82b88c1b26fe8d876b8715e72.jpg'},
+  {id:11,name:'Citrus Panna Cotta',desc:'Candied orange, mint',price:9,cat:'Desserts',icon:'cake',img:'https://kimi-web-img.moonshot.cn/img/www.vickery.tv/df3bbc13cfd5b0e423b6c28cd0e2fbd2122cd2f3.jpg'},
+  {id:12,name:'Barrel-Aged Old Fashioned',desc:'House bitters, orange oil',price:14,cat:'Drinks',icon:'drink',img:'https://kimi-web-img.moonshot.cn/img/mixthatdrink.com/8b3fe530b64dd7f2b04ab4f290d1e6e2369f56f5.jpg'},
+  {id:13,name:'Smoked Rosemary Spritz',desc:'Gin, elderflower, soda',price:13,cat:'Drinks',icon:'drink',img:'https://kimi-web-img.moonshot.cn/img/joinjules.com/ad42824c28c7be3fac809566dcad1d431e9a635b.png'}
 ];
 
 let tables = [
@@ -167,8 +167,9 @@ const state = {
   currentRole:null,
   cart:[],
   orderType:'Dine-in',
-  aiHistory:{}, // per role message arrays
-  notifOpen:false
+  aiHistory:{},
+  notifOpen:false,
+  guestMenuFilter:'All'
 };
 
 /* ============================================================
@@ -187,8 +188,21 @@ function showToast(msg){
 }
 
 /* ============================================================
-   LOGIN SCREEN SETUP
+   LOGIN SIDE PANEL
    ============================================================ */
+function openLoginPanel(){
+  $('#loginPanel').classList.add('open');
+  $('#loginScrim').hidden = false;
+}
+function closeLoginPanel(){
+  $('#loginPanel').classList.remove('open');
+  $('#loginScrim').hidden = true;
+}
+$('#guestSignInBtn').addEventListener('click', openLoginPanel);
+$('#guestSignInBtn2').addEventListener('click', openLoginPanel);
+$('#loginPanelClose').addEventListener('click', closeLoginPanel);
+$('#loginScrim').addEventListener('click', closeLoginPanel);
+
 function buildRoleGrid(){
   const grid = $('#roleGrid');
   grid.innerHTML = ROLES.map(r =>
@@ -207,22 +221,6 @@ function buildRoleGrid(){
   });
 }
 
-function buildLoginRail(){
-  const track = $('#loginRailTrack');
-  const samples = [
-    {id:'#3291', line:'Salmon · Risotto'}, {id:'#3292', line:'Short Rib x2'},
-    {id:'#3293', line:'Brisket Plate'}, {id:'#3294', line:'Veg Skewers'},
-    {id:'#3295', line:'Charcoal Chicken'}, {id:'#3296', line:'Octopus · Salad'}
-  ];
-  track.innerHTML = samples.map((s,i)=>{
-    const delay = i * -6;
-    const dur = 22 + (i%3)*3;
-    const top = (i%3)*6;
-    const glow = i%2===0 ? ' glow':'';
-    return '<div class="rail-chit'+glow+'" style="animation-duration:'+dur+'s; animation-delay:'+delay+'s; top:'+top+'px;"><b>'+s.id+'</b>'+s.line+'</div>';
-  }).join('');
-}
-
 /* ============================================================
    AUTH FLOW
    ============================================================ */
@@ -233,8 +231,9 @@ $('#loginForm').addEventListener('submit', e=>{
 function signIn(roleId){
   const role = ROLES.find(r=>r.id===roleId) || ROLES[0];
   state.currentRole = role.id;
-  $('#screen-login').hidden = true;
+  $('#screen-guest').hidden = true;
   $('#screen-app').hidden = false;
+  closeLoginPanel();
   $('#userAvatar').textContent = role.avatar;
   $('#userName').textContent = role.name;
   $('#userRole').textContent = role.label;
@@ -244,9 +243,12 @@ function signIn(roleId){
 }
 $('#logoutBtn').addEventListener('click', ()=>{
   $('#screen-app').hidden = true;
-  $('#screen-login').hidden = false;
+  $('#screen-guest').hidden = false;
   $('#sidebar').classList.remove('open');
   closeAI();
+  state.currentRole = null;
+  state.cart = [];
+  renderCart();
 });
 
 /* Forgot password modal */
@@ -343,6 +345,40 @@ $('#notifBtn').addEventListener('click', e=>{
 document.addEventListener('click', ()=>{ $('#notifPop').hidden = true; });
 
 /* ============================================================
+   GUEST PAGE: MENU
+   ============================================================ */
+function buildGuestMenuFilters(){
+  const cats = ['All', ...Array.from(new Set(menuItems.map(m=>m.cat)))];
+  $('#guestMenuFilterPills').innerHTML = cats.map(c=>
+    '<button class="filter-pill'+(c===state.guestMenuFilter?' active':'')+'" data-gcat="'+c+'">'+c+'</button>'
+  ).join('');
+  $all('[data-gcat]', $('#guestMenuFilterPills')).forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.guestMenuFilter = btn.dataset.gcat;
+      $all('[data-gcat]', $('#guestMenuFilterPills')).forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      buildGuestMenuGrid();
+    });
+  });
+}
+
+function buildGuestMenuGrid(){
+  const items = state.guestMenuFilter==='All' ? menuItems : menuItems.filter(m=>m.cat===state.guestMenuFilter);
+  $('#guestMenuGrid').innerHTML = items.map(m=>
+    '<div class="dish-card guest-dish">'+
+      '<div class="dish-img-wrap"><img src="'+m.img+'" alt="'+m.name+'" loading="lazy"></div>'+
+      '<div class="dish-body">'+
+        '<div class="dish-top">'+
+          '<div><div class="dish-name">'+m.name+'</div><div class="dish-tag">'+m.cat+'</div></div>'+
+        '</div>'+
+        '<div class="dish-desc">'+m.desc+'</div>'+
+        '<div class="dish-foot"><span class="dish-price">'+money(m.price)+'</span><span class="dish-login-hint">Sign in to order</span></div>'+
+      '</div>'+
+    '</div>'
+  ).join('');
+}
+
+/* ============================================================
    CUSTOMER: MENU
    ============================================================ */
 let menuFilter = 'All';
@@ -360,18 +396,23 @@ function buildMenuFilters(){
     });
   });
 }
+
 const plateColors = {Starters:'var(--teal-tint)', Mains:'var(--amber-tint)', Grills:'var(--ember-tint)', Desserts:'var(--herb-tint)', Drinks:'var(--paper-2)'};
 const plateIconColors = {Starters:'var(--teal)', Mains:'var(--amber-deep)', Grills:'var(--ember)', Desserts:'var(--herb)', Drinks:'var(--ink-soft)'};
+
 function buildMenuGrid(){
   const items = menuFilter==='All' ? menuItems : menuItems.filter(m=>m.cat===menuFilter);
   $('#menuGrid').innerHTML = items.map(m=>
     '<div class="dish-card">'+
-      '<div class="dish-top">'+
-        '<div class="dish-plate" style="background:'+plateColors[m.cat]+'; color:'+plateIconColors[m.cat]+'">'+svg(m.icon)+'</div>'+
-        '<div><div class="dish-name">'+m.name+'</div><div class="dish-tag">'+m.cat+'</div></div>'+
+      '<div class="dish-img-wrap"><img src="'+m.img+'" alt="'+m.name+'" loading="lazy"></div>'+
+      '<div class="dish-body">'+
+        '<div class="dish-top">'+
+          '<div class="dish-plate" style="background:'+plateColors[m.cat]+'; color:'+plateIconColors[m.cat]+'">'+svg(m.icon)+'</div>'+
+          '<div><div class="dish-name">'+m.name+'</div><div class="dish-tag">'+m.cat+'</div></div>'+
+        '</div>'+
+        '<div class="dish-desc">'+m.desc+'</div>'+
+        '<div class="dish-foot"><span class="dish-price">'+money(m.price)+'</span><button class="btn btn-ghost btn-sm" data-add="'+m.id+'">Add</button></div>'+
       '</div>'+
-      '<div class="dish-desc">'+m.desc+'</div>'+
-      '<div class="dish-foot"><span class="dish-price">'+money(m.price)+'</span><button class="btn btn-ghost btn-sm" data-add="'+m.id+'">Add</button></div>'+
     '</div>'
   ).join('');
   $all('[data-add]', $('#menuGrid')).forEach(btn=>{
@@ -807,7 +848,8 @@ async function sendAIMessage(userText){
    ============================================================ */
 function initAll(){
   buildRoleGrid();
-  buildLoginRail();
+  buildGuestMenuFilters();
+  buildGuestMenuGrid();
   buildMenuFilters();
   buildMenuGrid();
   renderCart();
